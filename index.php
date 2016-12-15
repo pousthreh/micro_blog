@@ -3,24 +3,21 @@ include('includes/connexion.inc.php');
 include('includes/haut.inc.php');
 
 ?>
-<?php if (isset($_GET['id'])){
-
-$id=$_GET['id'];
-$req = $pdo->prepare("SELECT contenu FROM messages WHERE id=:id");
-$req->bindValue(':id', $_GET['id']);
-$req ->execute();
-
-$data = $req->fetch(PDO::FETCH_OBJ);
-	
-}
-?>
-
 <div class="row">              
     <form method="post" action="message.php">
         <div class="col-sm-10">  
             <div class="form-group">
-                <textarea id="message" name="message" class="form-control" 
-				placeholder="Message"><?php if (isset ($req) ){echo $data->contenu;} ?></textarea>
+                <?php if (isset($_GET['id']) && !empty($_GET['id']))
+                {
+                    $query = 'SELECT * FROM messages WHERE id = ' . $_GET['id'];
+                    $message = $pdo->query($query);
+					$var=$message->fetch();
+                    echo '<input type="hidden" value="'. $_GET['id'] .'" name="id">';
+                }
+                ?>
+
+                <textarea id="message" name="message" class="form-control"
+				placeholder="Message"><?php if (isset($message)) { echo $var['contenu']; } ?></textarea>
             </div>
         </div>
         <div class="col-sm-2">
@@ -30,7 +27,7 @@ $data = $req->fetch(PDO::FETCH_OBJ);
 </div>
 
 <?php
-$query = 'SELECT * FROM messages';
+$query = 'SELECT * FROM messages ORDER BY id DESC';
 $stmt = $pdo->query($query);
 
 while ($data = $stmt->fetch()) {
@@ -41,7 +38,7 @@ while ($data = $stmt->fetch()) {
 		<a href ="sup.php?id=<?= $data['id'] ?>">
 		<button id='del' name='del' class="btn btn-xs btn-danger" 
 		onclick="return confirm('Supprimer <?= $data['id'] ?>')">Del</button></a>
-		<a href ="?id=<?= $data['id'] ?>">Edit</a>
+		<a href ="index.php?id=<?= $data['id'] ?> ?>">Edit</a>
 		</div>
 	</blockquote>
 	<?php
