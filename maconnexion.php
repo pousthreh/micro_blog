@@ -5,12 +5,12 @@ include('includes/haut.inc.php');
 
 	
 if(isset($_POST['submit'])){
-		=
+		
 	if (isset($_POST['pseudo']) && !empty($_POST['pseudo']) && isset($_POST['password']) && !empty($_POST['password'])){
-		$select="SELECT * FROM utilisateurs WHERE pseudo = : pseudo AND mdp = : mdp ";
+		$select="SELECT * FROM utilisateurs WHERE pseudo = :pseudo AND mdp = :mdp ";
 		$query=$pdo->prepare($select);
 		$query->bindValue(':pseudo', $_POST['pseudo']);
-        $query->bindValue(':mdp', $_POST['mdp']);
+        $query->bindValue(':mdp', $_POST['password']);
         $query->execute();
 		$resul=$query->fetch();
 		$nb=$query->rowcount();
@@ -20,49 +20,23 @@ if(isset($_POST['submit'])){
 			$sid = md5($_POST['pseudo'].time());
 			echo $sid;
 			
-			$miseajour ="UPDATE utilisateurs SET sid = :sid where pseudo = : pseudo AND mdp = : mdp";
-			$query=$pdo->prepare($select);
+			$miseajour ="UPDATE utilisateurs SET sid = :sid where pseudo = :pseudo AND mdp = :mdp";
+			$query=$pdo->prepare($miseajour);
 			$query->bindValue(':pseudo', $_POST['pseudo']);
-			$query->bindValue(':mdp', $_POST['mdp']);
-		
-	
-		}
-		
+			$query->bindValue(':mdp', $_POST['password']);
+			$query->bindValue(':sid', $sid);
+			$query->execute();
 			
+			setcookie('pseudo','123456',time()+365*24*3600,null,null,false,true);
+			header('location: index.php');
 			
-			$login = $_POST['pseudo'];
-			$password = $_POST['password'];
-		
-			if($login&&$password){
-			
-				$select = $pdo->query("SELECT id FROM utilisateurs WHERE email='$login' AND mdp='$password'");
-				//Test du résultat de la requête
-				if($select->fetchColumn()){
-					$select = $pdo->query("SELECT * FROM utilisateurs WHERE pseudo='$login' AND mdp='$password'");
-					$result = $select->fetch(PDO::FETCH_OBJ);
-					
-					
-					/*
-					$_SESSION['admin_id'] = $result->id;
-					$_SESSION['admin_login'] = $result->pseudo;
-					$_SESSION['admin_password'] = $result->mdp;*/
-
-	     		//Accès à l'application
-				header('location: index.php');
-		 
-		}else {
-	     //refus authentification non valide
-	     	echo '<script>alert("login ou Mot de Passe incorrect")</script>';
-		}
-	
-		
 		}else{
 			
-			echo '<script>alert("veuillez remplir tous les champs")</script>';
-			
+			echo "PAS D'UTILISATEUR";
 			header('location: connexion.php');
+			
 		}
-
-		}
-
+}}
+	
+	
 ?>

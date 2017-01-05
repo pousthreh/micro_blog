@@ -17,7 +17,7 @@ include('includes/haut.inc.php');
 			    		    <input class="form-control" placeholder="yourpseudo" name="pseudo" type="text">
 			    		</div>
 			    		<div class="form-group">
-			    			<input class="form-control" placeholder="Password" name="password" type="password" >
+			    			<input class="form-control"  name="password" type="password" >
 			    		</div>
 			    		<div class="checkbox">
 			    	    	<label>

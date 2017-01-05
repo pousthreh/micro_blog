@@ -34,12 +34,14 @@ while ($data = $stmt->fetch()) {
 	?>
 	<blockquote>
 		<?= $data['contenu'] ?>
+		<?php if (isset($_COOKIE['pseudo'])){ ?>
 		<div class="row">
 		<a href ="sup.php?id=<?= $data['id'] ?>">
 		<button id='del' name='del' class="btn btn-xs btn-danger" 
 		onclick="return confirm('Supprimer <?= $data['id'] ?>')">Del</button></a>
 		<a href ="index.php?id=<?= $data['id'] ?> ?>">Edit</a>
 		</div>
+		<?php } ?>
 	</blockquote>
 	<?php
 }
