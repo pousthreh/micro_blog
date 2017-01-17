@@ -4,7 +4,7 @@ include('includes/haut.inc.php');
 
 ?>
 <div class="row">              
-    <form method="post" action="message.php">
+    <form method="post" action="message.php"><?php if (isset($_COOKIE['pseudo'])){ ?>
         <div class="col-sm-10">  
             <div class="form-group">
                 <?php if (isset($_GET['id']) && !empty($_GET['id']))
@@ -23,11 +23,38 @@ include('includes/haut.inc.php');
         <div class="col-sm-2">
             <button type="submit" class="btn btn-success btn-lg">Envoyer</button>
         </div>                        
-    </form>
+    </form><?php } ?>
 </div>
 
 <?php
-$query = 'SELECT * FROM messages ORDER BY id DESC';
+$messagesParPage=4; // afficher 4 messages par page.
+
+$rtotal='SELECT COUNT(*) AS total FROM messages'; //Nous récupérons le nombre des pages dans $rtotal
+$total1=$pdo->query($rtotal);
+$total = $total1 -> fetch();
+$total=$total['total']; 
+
+$nombreDePages=ceil($total/$messagesParPage); // nombre de page
+
+if(isset($_GET['page'])) // Si la variable $_GET['page'] existe
+{
+     $pageActuelle=intval($_GET['page']);
+ 
+     if($pageActuelle>$nombreDePages) // Si la valeur de $pageActuelle (le numéro de la page) est plus grande que $nombreDePages...
+     {
+          $pageActuelle=$nombreDePages;
+     }
+}
+else 
+{
+     $pageActuelle=1; // La 1er page est 1   
+}
+
+$premiereEntree=($pageActuelle-1)*$messagesParPage; // On calcul la première entrée à lire
+
+
+
+$query = 'SELECT * FROM messages ORDER BY id DESC  LIMIT '.$premiereEntree.', '.$messagesParPage.'';
 $stmt = $pdo->query($query);
 
 while ($data = $stmt->fetch()) {
@@ -47,4 +74,27 @@ while ($data = $stmt->fetch()) {
 }
 ?>
 
+<nav aria-label="Page navigation">
+  <ul class="pagination">
+  
+  
+	<?php
+	echo "<li align='center'>Page : ' ";
+	for($i=1; $i<=$nombreDePages; $i++) // boucle
+	{
+     if($i==$pageActuelle) //Si il s'agit de la page actuelle
+     {
+         echo ' [ '.$i.' ] '; 
+     }	
+     else
+     {
+          echo ' <a href="index.php?page='.$i.'">'.$i.'</a> ';
+     }
+	}
+		echo "</li>";
+	?>
+
+ 
+  </ul>
+</nav>
 <?php include('includes/bas.inc.php'); ?>
