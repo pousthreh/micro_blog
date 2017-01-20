@@ -52,21 +52,22 @@ else
 
 $premiereEntree=($pageActuelle-1)*$messagesParPage; // On calcul la première entrée à lire
 
-
-
-$query = 'SELECT * FROM messages ORDER BY id DESC  LIMIT '.$premiereEntree.', '.$messagesParPage.'';
+$query = 'SELECT *,m.id as message_id FROM messages as m INNER JOIN utilisateurs as u ON m.user_id = u.id ORDER BY m.id DESC  LIMIT '.$premiereEntree.', '.$messagesParPage.'';
 $stmt = $pdo->query($query);
+
+
 
 while ($data = $stmt->fetch()) {
 	?>
 	<blockquote>
 		<?= $data['contenu'] ?>
-		<?php if (isset($_COOKIE['pseudo'])){ ?>
+		<br><i><h6><b>par <?= $data['pseudo'] ?></b></h6>
+		<?php if (isset($_COOKIE['psudo'])){ ?>
 		<div class="row">
-		<a href ="sup.php?id=<?= $data['id'] ?>">
-		<button id='del' name='del' class="btn btn-xs btn-danger" 
-		onclick="return confirm('Supprimer <?= $data['id'] ?>')">Del</button></a>
-		<a href ="index.php?id=<?= $data['id'] ?> ?>">Edit</a>
+			<a href ="sup.php?id=<?= $data['id'] ?>">
+			<button id='del' name='del' class="btn btn-xs btn-danger" 
+			onclick="return confirm('Supprimer <?= $data['id'] ?>')">Del</button></a>
+			<a href ="index.php?id=<?= $data['id'] ?> ?>">Edit</a>
 		</div>
 		<?php } ?>
 	</blockquote>
@@ -79,7 +80,7 @@ while ($data = $stmt->fetch()) {
   
   
 	<?php
-	echo "<li align='center'>Page : ' ";
+	echo "<li align='center'>Page :  ";
 	for($i=1; $i<=$nombreDePages; $i++) // boucle
 	{
      if($i==$pageActuelle) //Si il s'agit de la page actuelle
@@ -97,4 +98,5 @@ while ($data = $stmt->fetch()) {
  
   </ul>
 </nav>
+
 <?php include('includes/bas.inc.php'); ?>

@@ -15,6 +15,7 @@
 
     <!-- Theme CSS -->
     <link href="css/freelancer.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/cssGeneral.css">
 
     <!-- Custom Fonts -->
     <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -27,6 +28,11 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+
 
 </head>
 
@@ -49,13 +55,15 @@
                     <li class="hidden">
                         <a href="#page-top"></a>
                     </li>
-					<?php if (isset($_COOKIE['pseudo'])){ ?>
+					<?php if (isset($_COOKIE['psudo'])){ ?>
                     <li class="page-scroll">
 					 <a href="deconexion.php">deconexion</a>
                      
 					<?php }else{ ?>
 					<li class="page-scroll">
-                    <a href="connexion.php">Connexion</a>  
+                    <a href="connexion.php">Connexion</a>
+					<li class="page-scroll">
+                    <a href="inscription.php">Inscription</a>					
 					<?php } ?>
                 </ul>
             </div>
