@@ -4,7 +4,7 @@ include('includes/haut.inc.php');
 
 ?>
 <div class="row">              
-    <form method="post" action="message.php"><?php if (isset($_COOKIE['pseudo'])){ ?>
+    <form method="post" action="message.php"><?php if (isset($_COOKIE['psudo'])){ ?>
         <div class="col-sm-10">  
             <div class="form-group">
                 <?php if (isset($_GET['id']) && !empty($_GET['id']))
@@ -54,6 +54,7 @@ $premiereEntree=($pageActuelle-1)*$messagesParPage; // On calcul la première en
 
 $query = 'SELECT *,m.id as message_id FROM messages as m INNER JOIN utilisateurs as u ON m.user_id = u.id ORDER BY m.id DESC  LIMIT '.$premiereEntree.', '.$messagesParPage.'';
 $stmt = $pdo->query($query);
+
 
 
 

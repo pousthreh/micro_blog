@@ -1,0 +1,2 @@
+le micro blog est un mini-site qui reprend un peut le système de commentaire sur Facebook on peut voir les commentaires avec les personnes qui les ont publié.
+les personnes qui ne se connecter pas aux minis blogs ne pourront que les voir mais pas modifier ainsi pour que ça soit possible il faut qui s'inscrive puis se connecte pour pouvoir publier un commentaire

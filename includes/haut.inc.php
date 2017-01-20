@@ -66,6 +66,14 @@
                     <a href="inscription.php">Inscription</a>					
 					<?php } ?>
                 </ul>
+				<div class="row"><div class="col-xs-6 col-md-4">
+				<div id="search">
+					<form action="recherche.php" method="post">
+						<input type="search" name="search" id="search" value="" placeholder="Entrez ici le mot chercher" />
+						<button type="submit" id="submit" name="submit" class="btn btn-primary">recherche</button>
+					</form>
+				</div>
+				</div></div>
             </div>
             <!-- /.navbar-collapse -->
         </div>
